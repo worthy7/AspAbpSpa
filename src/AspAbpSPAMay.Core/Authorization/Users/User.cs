@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Authorization.Users;
 using Abp.Extensions;
+using AspAbpSPAMay.MultiTenancy;
 
 namespace AspAbpSPAMay.Authorization.Users
 {
@@ -30,5 +32,11 @@ namespace AspAbpSPAMay.Authorization.Users
 
             return user;
         }
+
+
+        [ForeignKey(nameof(TenantId))]
+        public Tenant Tenant { get; set; }
+
+
     }
 }
