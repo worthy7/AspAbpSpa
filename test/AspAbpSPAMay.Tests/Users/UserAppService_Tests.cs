@@ -5,6 +5,7 @@ using Xunit;
 using Abp.Application.Services.Dto;
 using AspAbpSPAMay.Users;
 using AspAbpSPAMay.Users.Dto;
+using System.Linq;
 
 namespace AspAbpSPAMay.Tests.Users
 {
@@ -47,6 +48,31 @@ namespace AspAbpSPAMay.Tests.Users
                 var johnNashUser = await context.Users.FirstOrDefaultAsync(u => u.UserName == "john.nash");
                 johnNashUser.ShouldNotBeNull();
             });
+        }
+
+
+        [Fact]
+        public async Task GetDeletedUsers_Test()
+        {
+            // Arrange
+            var user = await _userAppService.Create(
+                new CreateUserDto
+                {
+                    EmailAddress = "john@volosoft.com",
+                    IsActive = true,
+                    Name = "John",
+                    Surname = "Nash",
+                    Password = "123qwe",
+                    UserName = "john.nash"
+                });
+
+            await _userAppService.Delete(user);
+
+            // Act
+            var output = await _userAppService.GetAll(new PagedUserResultRequestDto { MaxResultCount = 10, SkipCount = 0, Keyword = "" });
+
+            // Assert
+            output.Items.Where(c=>c.IsDeleted).Count().ShouldBeGreaterThan(0);
         }
     }
 }

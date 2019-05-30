@@ -7,6 +7,7 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
 using Abp.Extensions;
 using Abp.IdentityFramework;
 using Abp.Linq.Extensions;
@@ -217,6 +218,14 @@ namespace AspAbpSPAMay.Users
             }
 
             return true;
+        }
+
+        public override Task<PagedResultDto<UserDto>> GetAll(PagedUserResultRequestDto input)
+        {
+            using (CurrentUnitOfWork.DisableFilter(AbpDataFilters.SoftDelete))
+            {
+                return base.GetAll(input);
+            }
         }
 
     }
