@@ -7,6 +7,8 @@ using Abp.Domain.Uow;
 using Abp.Runtime.Caching;
 using Abp.Zero.Configuration;
 using AspAbpSPAMay.Authorization.Users;
+using Abp.Domain.Repositories;
+using Abp.Organizations;
 
 namespace AspAbpSPAMay.Authorization.Roles
 {
@@ -21,7 +23,10 @@ namespace AspAbpSPAMay.Authorization.Roles
             IPermissionManager permissionManager, 
             ICacheManager cacheManager, 
             IUnitOfWorkManager unitOfWorkManager,
-            IRoleManagementConfig roleManagementConfig)
+            IRoleManagementConfig roleManagementConfig,
+            IRepository<OrganizationUnit, long> organizationUnitRepository,
+            IRepository<OrganizationUnitRole, long> organizationRoleUnitRepository
+            )
             : base(
                   store,
                   roleValidators, 
@@ -30,7 +35,9 @@ namespace AspAbpSPAMay.Authorization.Roles
                   permissionManager,
                   cacheManager, 
                   unitOfWorkManager,
-                  roleManagementConfig)
+                  roleManagementConfig,
+                  organizationUnitRepository,
+                  organizationRoleUnitRepository)
         {
         }
     }
