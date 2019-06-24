@@ -37,6 +37,14 @@ namespace AspAbpSPAMay.EntityFrameworkCore.Seed.Host
                 _context.SaveChanges();
             }
 
+            // mod role for host
+            var modRoleForHost = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == StaticRoleNames.Host.Mod);
+            if (modRoleForHost == null)
+            {
+                modRoleForHost = _context.Roles.Add(new Role(null, StaticRoleNames.Host.Mod, StaticRoleNames.Host.Mod) { IsStatic = true, IsDefault = false }).Entity;
+                _context.SaveChanges();
+            }
+
             // Grant all permissions to admin role for host
 
             var grantedPermissions = _context.Permissions.IgnoreQueryFilters()

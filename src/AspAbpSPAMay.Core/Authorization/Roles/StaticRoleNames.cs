@@ -5,6 +5,7 @@ namespace AspAbpSPAMay.Authorization.Roles
         public static class Host
         {
             public const string Admin = "Admin";
+            public const string Mod = "Mod";
         }
 
         public static class Tenants
